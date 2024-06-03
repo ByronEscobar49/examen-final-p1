@@ -40,7 +40,7 @@
             this.textBoxNombre = new System.Windows.Forms.TextBox();
             this.textBoxApellido = new System.Windows.Forms.TextBox();
             this.dateTimePickerFecha = new System.Windows.Forms.DateTimePicker();
-            this.textBoxpela = new System.Windows.Forms.TextBox();
+            this.textBoxpelea = new System.Windows.Forms.TextBox();
             this.textBoxSanguinio = new System.Windows.Forms.TextBox();
             this.textBoxPeso = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
@@ -53,7 +53,7 @@
             this.numericUpDownEliminar = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownActualizar = new System.Windows.Forms.NumericUpDown();
             this.textBoxAltura = new System.Windows.Forms.TextBox();
-            this.buttoncargar1 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPersonajes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownEliminar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownActualizar)).BeginInit();
@@ -186,13 +186,13 @@
             this.dateTimePickerFecha.Size = new System.Drawing.Size(197, 21);
             this.dateTimePickerFecha.TabIndex = 12;
             // 
-            // textBoxpela
+            // textBoxpelea
             // 
-            this.textBoxpela.Location = new System.Drawing.Point(189, 327);
-            this.textBoxpela.Multiline = true;
-            this.textBoxpela.Name = "textBoxpela";
-            this.textBoxpela.Size = new System.Drawing.Size(197, 20);
-            this.textBoxpela.TabIndex = 13;
+            this.textBoxpelea.Location = new System.Drawing.Point(189, 327);
+            this.textBoxpelea.Multiline = true;
+            this.textBoxpelea.Name = "textBoxpelea";
+            this.textBoxpelea.Size = new System.Drawing.Size(197, 20);
+            this.textBoxpelea.TabIndex = 13;
             // 
             // textBoxSanguinio
             // 
@@ -303,22 +303,22 @@
             this.textBoxAltura.Size = new System.Drawing.Size(197, 21);
             this.textBoxAltura.TabIndex = 27;
             // 
-            // buttoncargar1
+            // button1
             // 
-            this.buttoncargar1.Location = new System.Drawing.Point(574, 423);
-            this.buttoncargar1.Name = "buttoncargar1";
-            this.buttoncargar1.Size = new System.Drawing.Size(80, 38);
-            this.buttoncargar1.TabIndex = 28;
-            this.buttoncargar1.Text = "Cargar";
-            this.buttoncargar1.UseVisualStyleBackColor = true;
-            this.buttoncargar1.Click += new System.EventHandler(this.buttoncargar1_Click);
+            this.button1.Location = new System.Drawing.Point(553, 423);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(80, 38);
+            this.button1.TabIndex = 29;
+            this.button1.Text = "Cargar";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1184, 483);
-            this.Controls.Add(this.buttoncargar1);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.textBoxAltura);
             this.Controls.Add(this.numericUpDownActualizar);
             this.Controls.Add(this.numericUpDownEliminar);
@@ -331,7 +331,7 @@
             this.Controls.Add(this.label9);
             this.Controls.Add(this.textBoxPeso);
             this.Controls.Add(this.textBoxSanguinio);
-            this.Controls.Add(this.textBoxpela);
+            this.Controls.Add(this.textBoxpelea);
             this.Controls.Add(this.dateTimePickerFecha);
             this.Controls.Add(this.textBoxApellido);
             this.Controls.Add(this.textBoxNombre);
@@ -371,7 +371,7 @@
         private System.Windows.Forms.TextBox textBoxNombre;
         private System.Windows.Forms.TextBox textBoxApellido;
         private System.Windows.Forms.DateTimePicker dateTimePickerFecha;
-        private System.Windows.Forms.TextBox textBoxpela;
+        private System.Windows.Forms.TextBox textBoxpelea;
         private System.Windows.Forms.TextBox textBoxSanguinio;
         private System.Windows.Forms.TextBox textBoxPeso;
         private System.Windows.Forms.Label label9;
@@ -384,7 +384,7 @@
         private System.Windows.Forms.NumericUpDown numericUpDownEliminar;
         private System.Windows.Forms.NumericUpDown numericUpDownActualizar;
         private System.Windows.Forms.TextBox textBoxAltura;
-        private System.Windows.Forms.Button buttoncargar1;
+        private System.Windows.Forms.Button button1;
     }
 }
 

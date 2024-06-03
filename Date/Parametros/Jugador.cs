@@ -8,7 +8,7 @@ namespace Examen_Final_P1.Date.Parametros
 {
     internal class Jugador
     {
-        public double ID { get; set; }
+
         public string nombre { get; set; }
         public string apellido { get; set; }
         public DateTime fecha_nacimiento { get; set; }

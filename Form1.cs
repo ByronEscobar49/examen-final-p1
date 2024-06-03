@@ -8,8 +8,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MySql.Data.MySqlClient;
+using System.Data.SqlClient;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using Microsoft.Win32;
 
 namespace Examen_Final_P1
 {
@@ -17,14 +20,14 @@ namespace Examen_Final_P1
     {
         private MyConexyonSQL MyConexyonSQL;
 
-        Jugador jr = new Jugador();
-        private Jugador Jugador;
+        Jugador Jugador = new Jugador();
+        private object connection;
         private string connectionString;
         
         public Form1()
         {
             InitializeComponent();
-        InitializeComponent();
+
         Jugador = new Jugador();
         MyConexyonSQL = new MyConexyonSQL();
     }
@@ -117,7 +120,7 @@ namespace Examen_Final_P1
                 Jugador.altura =textBoxAltura.Text;
                 Jugador.peso = textBoxPeso.Text;
                 Jugador.tipo_sanguinio = textBoxSanguinio.Text;
-                Jugador.estilo_pelea = textBoxpela.Text;
+                Jugador.estilo_pelea = textBoxpelea.Text;
 
                 // Validar los datos antes de la actualización
                 DialogResult result = MessageBox.Show("¿Está seguro de que desea actualizar este registro?", "Confirmación", MessageBoxButtons.YesNo);
@@ -164,20 +167,31 @@ namespace Examen_Final_P1
             Jugador.altura =textBoxAltura.Text;
             Jugador.peso = textBoxPeso.Text;
             Jugador.tipo_sanguinio = textBoxSanguinio.Text;
-            Jugador.estilo_pelea = textBoxpela.Text;
-            MessageBox.Show("La Información Se a Guardado Correctamente");
+            Jugador.estilo_pelea = textBoxpelea.Text;
+            DialogResult result = MessageBox.Show("¿Está seguro de que desea añadir este registro ? ", "Confirmación", MessageBoxButtons.YesNo);
 
-            int respuesta = MyConexyonSQL.AñadirMyConexyon(Jugador.nombre, Jugador.apellido, Jugador.fecha_nacimiento, Jugador.altura, Jugador.peso,Jugador.tipo_sanguinio, Jugador.estilo_pelea);
+            if (result == DialogResult.Yes)
+            {
+                try
+                {
+                    int respuest = MyConexyonSQL.AñadirMyConexyon(Jugador.nombre, Jugador.apellido, Jugador.fecha_nacimiento, Jugador.altura, Jugador.peso, Jugador.tipo_sanguinio, Jugador.estilo_pelea);
+                    if (respuest > 0)
+                    {
+                        MessageBox.Show("El Personaje se añido correctamente");
+                        RecargarDatosDataGridView();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error al añadir personaje.");
 
-            if (respuesta > 0)
-            {
-                limpiarTextBox();
-                MessageBox.Show("Se añadio correctemente");
-                dataGridViewPersonajes.DataSource = MyConexyonSQL.Leer();
-            }
-            else
-            {
-                MessageBox.Show("Hubo un error al añadir el personaje");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al añadir el registro: " + ex.Message);
+
+                }
+
             }
         }
 
@@ -189,6 +203,8 @@ namespace Examen_Final_P1
             textBoxAltura.Text = "";
             textBoxPeso.Text = "";
             dateTimePickerFecha.Value = DateTime.Now;
+            textBoxSanguinio.Text = "";
+            textBoxpelea.Text = "";
         }
 
         private void buttonEliminar_Click(object sender, EventArgs e)
@@ -197,7 +213,7 @@ namespace Examen_Final_P1
 
             int respuesta = MyConexyonSQL.EliminarMyConexyon(ID);
 
-            if (respuesta > 0)
+            if (respuesta == 0)
             {
                 limpiarTextBox();
                 MessageBox.Show("Se elimino correctemente");
@@ -206,7 +222,9 @@ namespace Examen_Final_P1
             else
             {
                 MessageBox.Show("Se elimino el personaje pero debe cargar otravez la pagina");
+
             }
+            RecargarDatosDataGridView();
         }
 
         private void numericUpDownActualizar_ValueChanged(object sender, EventArgs e)
@@ -226,11 +244,13 @@ namespace Examen_Final_P1
             if (selectedRow != null)
             {
                 // Actualiza los TextBox y otros controles con los valores de la fila seleccionada
-                textBoxNombre.Text = selectedRow.Cells["nombre"].Value?.ToString() ?? string.Empty;
-                textBoxApellido.Text = selectedRow.Cells["apellido"].Value?.ToString() ?? string.Empty;
-                textBoxSanguinio.Text = selectedRow.Cells["tipo_sanguinio"].Value?.ToString() ?? string.Empty;
-                textBoxpela.Text = selectedRow.Cells["estilo_pelea"].Value?.ToString() ?? string.Empty;
-                dateTimePickerFecha.Value = selectedRow.Cells["fecha_nacimiento"].Value != null ? Convert.ToDateTime(selectedRow.Cells["fechae"].Value) : DateTime.MinValue;
+                textBoxNombre.Text = selectedRow.Cells["Nombre"].Value?.ToString() ?? string.Empty;
+                textBoxApellido.Text = selectedRow.Cells["Apellido"].Value?.ToString() ?? string.Empty;
+                textBoxAltura.Text = selectedRow.Cells["Altura"].Value?.ToString() ?? string.Empty;
+                textBoxPeso.Text = selectedRow.Cells["Peso"].Value?.ToString() ?? string.Empty;
+                textBoxSanguinio.Text = selectedRow.Cells["Tipo_Sanguineo"].Value?.ToString() ?? string.Empty;
+                textBoxpelea.Text = selectedRow.Cells["Estilo_Pelea"].Value?.ToString() ?? string.Empty;
+                dateTimePickerFecha.Value = selectedRow.Cells["Fecha_Nacimiento"].Value != null ? Convert.ToDateTime(selectedRow.Cells["Fecha_Nacimiento"].Value) : DateTime.MinValue;
 
             }
             else
@@ -238,8 +258,10 @@ namespace Examen_Final_P1
                 // Si no se encuentra la fila, limpia los TextBox y otros controles
                 textBoxNombre.Text = string.Empty;
                 textBoxApellido.Text = string.Empty;
+                textBoxAltura.Text = string.Empty;
+                textBoxPeso.Text = string.Empty;
                 textBoxSanguinio.Text = string.Empty;
-                textBoxpela.Text = string.Empty;
+                textBoxpelea.Text = string.Empty;
                 dateTimePickerFecha.Value = DateTime.Now;
 
             }
@@ -253,6 +275,16 @@ namespace Examen_Final_P1
         private void buttoncargar1_Click(object sender, EventArgs e)
         {
             dataGridViewPersonajes.DataSource = MyConexyonSQL.Leer();
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            dataGridViewPersonajes.DataSource=MyConexyonSQL.Leer();
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+
         }
     }
 }

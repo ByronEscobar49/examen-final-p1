@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
+using System.Linq.Expressions;
 
 namespace Examen_Final_P1.Date.Parametros
 {
@@ -52,7 +53,7 @@ namespace Examen_Final_P1.Date.Parametros
             }
             return the_king_of_fighters;
         }
-        public int AñadirMyConexyon(string nombre, string apellido, DateTime fechae_nacimiento, string altura, string peso, string tipo_sanguinio, string estilo_pelea)
+        public int AñadirMyConexyon(string Nombre, string Apellido, DateTime Fecha_Nacimiento, string Altura, string Peso, string Tipo_Sanguineo, string Estilo_Pelea)
         {
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
@@ -60,48 +61,57 @@ namespace Examen_Final_P1.Date.Parametros
                 {
                     connection.Open();
 
-                    if (string.IsNullOrEmpty(nombre))
+                    if (string.IsNullOrEmpty(Nombre))
                     {
                         MessageBox.Show("Error: El campo 'Nombre' no puede estar vacío.");
                         return -1;
                     }
 
-                    if (string.IsNullOrEmpty(apellido))
+                    if (string.IsNullOrEmpty(Apellido))
                     {
                         MessageBox.Show("Error: El campo 'Apellido' no puede estar vacío.");
                         return -1;
                     }
 
-                    if (fechae_nacimiento == DateTime.MinValue)
+                    if (Fecha_Nacimiento == DateTime.MinValue)
                     {
                         MessageBox.Show("Error: Debe ingresar una fecha de nacimiento valida.");
                         return -1;
                     }
 
-                    if (string.IsNullOrEmpty(estilo_pelea) || !double.TryParse(estilo_pelea, out _))
+                    if (string.IsNullOrEmpty(Estilo_Pelea)) 
                     {
                         MessageBox.Show("Error: El campo estilo pelea no puede estar valido");
                         return -1;
                     }
 
-                    if (string.IsNullOrEmpty(tipo_sanguinio) || !double.TryParse(tipo_sanguinio, out _))
+                    if (string.IsNullOrEmpty(Tipo_Sanguineo)) 
                     {
                         MessageBox.Show("Error: El campo tipo sanguinio no puede quedar vacio");
                         return -1;
                     }
-                    string query = "INSERT INTO examen_final(nombre, apellido, fecha_nacimiento, altura, peso, tipo sanguinio, estilo pelea) VALUES (@nombre, @apellido, @fecha_nacimineto, @altura, @peso, @tipo_sanguinio, @estilo_pelea)";
-
-                    using (MySqlCommand commnd = new MySqlCommand(query, connection))
+                    if (string.IsNullOrEmpty(Altura))
                     {
-                        commnd.Parameters.AddWithValue("@nombre", nombre);
-                        commnd.Parameters.AddWithValue("@apellido", apellido);
-                        commnd.Parameters.AddWithValue("@fecha_nacimiento", fechae_nacimiento);
-                        commnd.Parameters.AddWithValue("@altura", altura);
-                        commnd.Parameters.AddWithValue("@peso", peso);
-                        commnd.Parameters.AddWithValue("@tipo_sanguinio", tipo_sanguinio);
-                        commnd.Parameters.AddWithValue("@estilo_pelea", estilo_pelea);
+                    MessageBox.Show("Error: El campo tipo altura no puede quedar vacio");
+                        return -1;
+                    }
+                    if (string.IsNullOrEmpty(Peso))
+                    {
+                        MessageBox.Show("Error: El campo tipo peso no puede quedar vacio");
+                        return -1;
+                    }
+                    string query = "INSERT INTO the_king_of_fighters (Nombre, Apellido, Fecha_Nacimiento, Altura, Peso, Tipo_Sanguineo, Estilo_Pelea) VALUES (@Nombre, @Apellido, @Fecha_Nacimiento, @Altura, @Peso, @Tipo_Sanguineo, @Estilo_Pelea)";
 
-                        return commnd.ExecuteNonQuery();
+                    using (MySqlCommand command = new MySqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Nombre", Nombre);
+                        command.Parameters.AddWithValue("@Apellido", Apellido);
+                        command.Parameters.AddWithValue("@Fecha_Nacimiento", Fecha_Nacimiento);
+                        command.Parameters.AddWithValue("@Altura", Altura);
+                        command.Parameters.AddWithValue("@Peso", Peso);
+                        command.Parameters.AddWithValue("@Tipo_Sanguineo", Tipo_Sanguineo);
+                        command.Parameters.AddWithValue("@Estilo_Pelea",Estilo_Pelea);
+                        return command.ExecuteNonQuery();
 
                     }
                 }
@@ -122,7 +132,7 @@ namespace Examen_Final_P1.Date.Parametros
                 {
                     connection.Open();
 
-                    string sql = "DELETE FROM examen_final WHERE ID = @ID";
+                    string sql = "DELETE FROM the_king_of_fighters WHERE ID = @ID";
                     using (MySqlCommand command = new MySqlCommand(sql, connection))
                     {
                         command.Parameters.AddWithValue("@ID", ID);
@@ -144,7 +154,7 @@ namespace Examen_Final_P1.Date.Parametros
             }
         }
 
-        public int ActualizarMyConexyon(int ID, string nombre, string apellido, DateTime fecha_nacimiento, string altura, string peso, string tipo_sanguinio, string estilo_pelea)
+        public int ActualizarMyConexyon(int ID, string Nombre, string Apellido, DateTime Fecha_Nacimiento, string Altura, string Peso, string Tipo_Sanguineo, string Estilo_Pelea)
         {
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
@@ -155,18 +165,17 @@ namespace Examen_Final_P1.Date.Parametros
                 {
                     connection.Open();
 
-                    string query = "UPDATE examen_final SET nombre = @nombre, apellido = @apellido, fecha_nacimeinto " +
-                        "= @fecha_nacimiento, altura = @altura, peso = @peso, tipo_sanguinio = @tipo_sanguinio, estilo_pelea = @estilo_pelea WHERE ID = @ID";
+                    string query = "UPDATE the_king_of_fighters SET  Nombre = @Nombre, Apellido = @Apellido, Fecha_Nacimiento = @Fecha_Nacimiento, Altura = @Altura, Peso = @Peso, Tipo_Sanguineo = @Tipo_Sanguineo, Estilo_Pelea = @Estilo_Pelea WHERE ID = @ID";
 
                     using (MySqlCommand commnd = new MySqlCommand(query, connection))
                     {
-                        commnd.Parameters.AddWithValue("@nombre", nombre);
-                        commnd.Parameters.AddWithValue("@apellido", apellido);
-                        commnd.Parameters.AddWithValue("@fecha_nacimiento", fecha_nacimiento);
-                        commnd.Parameters.AddWithValue("@altura", altura);
-                        commnd.Parameters.AddWithValue("@peso", peso);
-                        commnd.Parameters.AddWithValue("@tipo_sanguinio", tipo_sanguinio);
-                        commnd.Parameters.AddWithValue("@estilo_pelea", estilo_pelea);
+                        commnd.Parameters.AddWithValue("@Nombre", Nombre);
+                        commnd.Parameters.AddWithValue("@Apellido", Apellido);
+                        commnd.Parameters.AddWithValue("@Fecha_Nacimiento", Fecha_Nacimiento);
+                        commnd.Parameters.AddWithValue("@Altura", Altura);
+                        commnd.Parameters.AddWithValue("@Peso", Peso);
+                        commnd.Parameters.AddWithValue("@Tipo_Sanguineo", Tipo_Sanguineo);
+                        commnd.Parameters.AddWithValue("@Estilo_Pelea", Estilo_Pelea);
                         commnd.Parameters.AddWithValue("@ID", ID);
 
                         return commnd.ExecuteNonQuery();
