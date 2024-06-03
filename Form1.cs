@@ -13,6 +13,7 @@ using System.Data.SqlClient;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using Microsoft.Win32;
+using MySqlX.XDevAPI.Common;
 
 namespace Examen_Final_P1
 {
@@ -197,7 +198,7 @@ namespace Examen_Final_P1
 
         private void limpiarTextBox()
         {
-            textBoxid.Text = "";
+            
             textBoxNombre.Text = "";
             textBoxApellido.Text = "";
             textBoxAltura.Text = "";
@@ -208,6 +209,7 @@ namespace Examen_Final_P1
         }
 
         private void buttonEliminar_Click(object sender, EventArgs e)
+       
         {
             int ID = (int)numericUpDownEliminar.Value;
 
@@ -283,6 +285,11 @@ namespace Examen_Final_P1
         }
 
         private void button2_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBoxpelea_TextChanged(object sender, EventArgs e)
         {
 
         }
